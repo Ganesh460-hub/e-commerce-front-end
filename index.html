@@ -525,18 +525,30 @@
         });
     });
 
-    // Toggle cart dropdown on clicking the cart icon
-    cartIcon.addEventListener("click", (e) => {
-        e.preventDefault();
-        cartDropdown.style.display = cartDropdown.style.display === "none" ? "block" : "none";
-    });
+    const mobileCartIcon = document.querySelector("#mobile a"); // mobile cart
 
-    // Close cart when clicking outside
-    document.addEventListener("click", (e) => {
-        if (!cartDropdown.contains(e.target) && !cartIcon.contains(e.target)) {
-            cartDropdown.style.display = "none";
-        }
-    });
+// Toggle cart dropdown on clicking either desktop or mobile cart icon
+cartIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    cartDropdown.style.display = cartDropdown.style.display === "none" ? "block" : "none";
+});
+
+mobileCartIcon.addEventListener("click", (e) => {
+    e.preventDefault();
+    cartDropdown.style.display = cartDropdown.style.display === "none" ? "block" : "none";
+});
+
+// Close cart when clicking outside (desktop + mobile)
+document.addEventListener("click", (e) => {
+    if (
+        !cartDropdown.contains(e.target) &&
+        !cartIcon.contains(e.target) &&
+        !mobileCartIcon.contains(e.target)
+    ) {
+        cartDropdown.style.display = "none";
+    }
+});
+
 });
 
 
