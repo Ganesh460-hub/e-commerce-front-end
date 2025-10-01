@@ -470,7 +470,7 @@
     </footer>
 
     <script>
-document.addEventListener("DOMContentLoaded", () => {
+     document.addEventListener("DOMContentLoaded", () => {
 
     let cart = [];
     const cartButtons = document.querySelectorAll(".cart");
@@ -481,42 +481,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartIcon = document.getElementById("lg-bag");
 
     function updateCartDisplay() {
-    cartItemsDiv.innerHTML = ""; // Clear previous items
-    let total = 0;
+        cartItemsDiv.innerHTML = "";
+        let total = 0;
 
-    cart.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.style.display = "flex";
-        div.style.justifyContent = "space-between";
-        div.style.alignItems = "center";
-        div.style.marginBottom = "5px";
+        cart.forEach((item, index) => {
+            const div = document.createElement("div");
+            div.style.display = "flex";
+            div.style.justifyContent = "space-between";
+            div.style.alignItems = "center";
+            div.style.marginBottom = "5px";
 
-        div.innerHTML = `
-            <span>${item.name}</span>
-            <span>${item.price}</span>
-            <button class="remove-item" data-index="${index}" style="background:red;color:white;border:none;border-radius:3px;padding:2px 5px;cursor:pointer;">X</button>
-        `;
+            div.innerHTML = `
+                <span>${item.name}</span>
+                <span>${item.price}</span>
+                <button class="remove-item" data-index="${index}" style="background:red;color:white;border:none;border-radius:3px;padding:2px 5px;cursor:pointer;">X</button>
+            `;
 
-        cartItemsDiv.appendChild(div);
-
-        // Remove $ sign for calculation
-        total += parseFloat(item.price.replace("$",""));
-    });
-
-    cartTotal.innerText = `Total: $${total}`;
-
-    // Add event listeners to remove buttons
-    const removeButtons = document.querySelectorAll(".remove-item");
-    removeButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const i = btn.getAttribute("data-index");
-            cart.splice(i, 1); // remove item from cart
-            cartQuantity.forEach(qty => qty.innerText = cart.length);
-            updateCartDisplay(); // refresh cart display
+            cartItemsDiv.appendChild(div);
+            total += parseFloat(item.price.replace("$",""));
         });
-    });
-}
 
+        cartTotal.innerText = `Total: $${total}`;
+        cartQuantity.forEach(qty => qty.innerText = cart.length);
+
+        // Add event listeners to remove buttons
+        const removeButtons = document.querySelectorAll(".remove-item");
+        removeButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const i = btn.getAttribute("data-index");
+                cart.splice(i, 1);
+                updateCartDisplay();
+            });
+        });
+    }
 
     cartButtons.forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -524,10 +521,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const price = btn.closest(".pro").querySelector(".des h4").innerText;
 
             cart.push({name: product, price: price});
-
-            // Update badge
-            cartQuantity.forEach(qty => qty.innerText = cart.length);
-
             updateCartDisplay();
         });
     });
@@ -538,11 +531,17 @@ document.addEventListener("DOMContentLoaded", () => {
         cartDropdown.style.display = cartDropdown.style.display === "none" ? "block" : "none";
     });
 
+    // Close cart when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!cartDropdown.contains(e.target) && !cartIcon.contains(e.target)) {
+            cartDropdown.style.display = "none";
+        }
+    });
 });
 
 
-
-</script>
+ 
+    </script>
 
     
 </body>
